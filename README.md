@@ -1,5 +1,5 @@
-# oreilly-download
-Download books from your Oreilly subscription locally to then use texts for summarization, notes, similarity search etc. 
+# book-download
+Download books from your oreilly subscription locally to then use texts for summarization, notes, similarity search etc. 
 Downloading is done by providing a link to the first apage of the book and then scraping the pages to save the book context (including images) in .docx format. Code snippets formatting is not yet supported. 
 Final app is built in streamlit.
 
