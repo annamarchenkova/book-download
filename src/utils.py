@@ -76,7 +76,7 @@ def download_proxy(proxy_url):
 
     return "http://" + proxy
 
-def get_webdriver(proxy_address=None):
+def get_webdriver_via_proxy(proxy_address=None):
     """Create webdriver instance
 
     Args:
@@ -98,6 +98,29 @@ def get_webdriver(proxy_address=None):
         options.add_argument(f'--proxy-server={proxy_address}')
 
     driver = webdriver.Chrome(options=options)
+    return driver
+
+def get_webdriver(chromedriver_path=""):
+    """Create webdriver instance
+
+    Args:
+        download_dir (str): default download directory
+
+    Returns:
+        _type_: webdriver instance
+    """
+    options = webdriver.ChromeOptions()
+
+    prefs = {
+        # "download.default_directory": download_dir,
+        "download.prompt_for_download": True,
+    }
+    options.add_experimental_option("prefs", prefs)
+    options.add_argument("--safebrowsing-disable-download-protection")
+    options.add_argument("safebrowsing-disable-extension-blacklist")
+
+    service = webdriver.ChromeService(executable_path=chromedriver_path)
+    driver = webdriver.Chrome(service=service, options=options)
     return driver
 
 def move_files(
@@ -288,21 +311,21 @@ def open_start_page(proxy, sleep_time=120,
         "https://learning.oreilly.com/library/view/introduction-to-machine/9781449369880/preface01.html".
         link to the first page of the book.
     """
-    driver = get_webdriver(proxy_address=proxy)
+    driver = get_webdriver_via_proxy(proxy_address=proxy)
     driver.get(link)
     time.sleep(sleep_time)
     return driver
 
-def download_from_links(page_urls, proxy, common_dir=OUTPUT_DIR, sleep_time=70):
+def download_from_links(page_urls, proxy, common_dir=OUTPUT_DIR):
     """Scrapes the book using the link
 
     Args:
         page_urls (list of str): List of links for the books
     """
     
-    driver = get_webdriver(proxy_address=proxy)
+    driver = get_webdriver_via_proxy(proxy_address=proxy)
     driver.get("https://learning.oreilly.com/library/view/introduction-to-machine/9781449369880/preface01.html")
-    time.sleep(sleep_time)
+    time.sleep(70)
     
     os.environ["HTTPS_PROXY"] = proxy
 
