@@ -70,6 +70,15 @@ def main():
 
                 book_title = get_title_from_link(book_url)
 
+                # Press Start if needed
+                try:
+                    start_button = driver.find_element(
+                                            By.XPATH, '//*[@id="main"]/section/article/section/section[1]/div[1]/a'
+                                        )
+                    start_button.click()
+                except:
+                    pass
+
                 # Get book texts and save them as docx
                 save_book_content_to_docx(
                     driver=driver,
