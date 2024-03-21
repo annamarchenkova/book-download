@@ -1,0 +1,6 @@
+url_proxy: 'http://wpad.dat'
+proxy_ut: 'ut13419'
+proxy_psw_file: 'proxy_password.txt'
+page_url: "https://learning.oreilly.com/home-new/"
+login_sleep_time: 70
+chromedriver_path: "C:/venvs/oreilly/Lib/site-packages/selenium/webdriver/chrome/chromedriver.exe"
