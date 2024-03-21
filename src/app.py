@@ -6,6 +6,7 @@ from utils import (
     load_config,
     download_proxy,
     get_webdriver,
+    get_webdriver_via_proxy,
     get_title_from_link,
     save_book_content_to_docx,
 )
@@ -36,13 +37,19 @@ def main():
 
         if use_proxy:
             proxy = download_proxy(proxy_url=cnf["url_proxy"])
-            driver = get_webdriver(proxy_address=proxy)
+            try:
+                driver = get_webdriver_via_proxy(proxy_address=proxy)
+            except:
+                driver = get_webdriver(chromedriver_path=cnf['chromedriver_path'])
             proxies = {'http': proxy, 'https': proxy}
         else:
-            driver = get_webdriver(proxy_address=None)
+            try:
+                driver = get_webdriver_via_proxy(proxy_address=proxy)
+            except:
+                driver = get_webdriver(chromedriver_path=cnf['chromedriver_path'])
             proxies = None
 
-        driver.get(cnf["page_url"])
+        driver.get("https://learning.oreilly.com/library/view/introduction-to-machine/9781449369880/preface01.html")
 
         st.info("Remaining time to finish login, after which download will start automatically:")
         progress_bar = st.progress(sleep_time)
